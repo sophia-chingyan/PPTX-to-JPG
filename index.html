@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PPTX to Image Converter</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        :root {
+            --pico-font-size: 16px;
+            --accent: #4a90d9;
+            --accent-hover: #357abd;
+        }
+        body { background: #f4f6f9; }
+        header.hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            padding: 2.5rem 0;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        header.hero h1 { color: #fff; margin-bottom: 0.25rem; }
+        header.hero p { color: #a0b4cc; margin: 0; }
+
+        .upload-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            border: 2px dashed #cfd8dc;
+            transition: border-color 0.2s, background 0.2s;
+            cursor: pointer;
+        }
+        .upload-box.dragover {
+            border-color: var(--accent);
+            background: #e8f0fe;
+        }
+        .upload-box .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .upload-box p { color: #546e7a; margin-bottom: 1.25rem; }
+        .btn-browse {
+            display: inline-block;
+            padding: 0.6rem 1.75rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            background: var(--accent);
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-browse:hover { background: var(--accent-hover); }
+
+        /* Progress */
+        #progress-section, #done-section, #format-section { display: none; }
+        #progress-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+        #progress-section h3 { margin-top: 0; }
+        .progress-text { color: #546e7a; font-size: 0.95rem; margin-top: 0.5rem; }
+
+        /* Format bar */
+        #format-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .format-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .format-group label { font-size: 0.9rem; color: #546e7a; margin: 0; }
+        .format-btn {
+            padding: 0.3rem 0.9rem;
+            border-radius: 6px;
+            border: 1px solid #cfd8dc;
+            background: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #546e7a;
+        }
+        .format-btn.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .action-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .btn-dl-all {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 1.25rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            background: #388e3c;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-dl-all:hover { background: #2e7d32; }
+        .btn-another {
+            padding: 0.4rem 1.25rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #546e7a;
+            background: transparent;
+            border: 1px solid #cfd8dc;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-another:hover { border-color: #90a4ae; color: #37474f; }
+
+        /* Slide grid */
+        .slide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .slide-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+        .slide-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.14); }
+        .slide-card img {
+            width: 100%;
+            display: block;
+            border-bottom: 1px solid #eee;
+        }
+        .slide-footer {
+            padding: 0.6rem 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .slide-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #37474f;
+        }
+        .btn-dl {
+            display: inline-block;
+            padding: 0.25rem 0.7rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #fff;
+            background: var(--accent);
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-dl:hover { background: var(--accent-hover); color: #fff; }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="container">
+            <h1>PPTX to Image Converter</h1>
+            <p>Convert PowerPoint slides to PNG or JPG images</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Upload -->
+        <section id="upload-section">
+            <div class="upload-box" id="drop-zone">
+                <div class="icon">&#128202;</div>
+                <p>Select a <strong>.pptx</strong> file to convert each slide to an image</p>
+                <input type="file" id="file-input" accept=".pptx" hidden>
+                <button class="btn-browse" onclick="document.getElementById('file-input').click()">Upload File</button>
+            </div>
+        </section>
+
+        <!-- Progress -->
+        <section id="progress-section">
+            <h3>Converting: <span id="converting-name"></span></h3>
+            <progress id="progress-bar" value="0" max="100" style="margin-bottom:0.5rem;width:100%"></progress>
+            <div class="progress-text" id="progress-text">Preparing...</div>
+        </section>
+
+        <!-- Format bar + actions -->
+        <div id="format-section">
+            <div class="format-group">
+                <label>Format:</label>
+                <button class="format-btn active" data-fmt="png">PNG</button>
+                <button class="format-btn" data-fmt="jpg">JPG</button>
+                <span style="color:#78909c;font-size:0.85rem;margin-left:0.5rem;" id="slide-count"></span>
+            </div>
+            <div class="action-group">
+                <button class="btn-dl-all" id="btn-dl-all">&#11015; Download All</button>
+                <button class="btn-another" onclick="resetToUpload()">Convert Another</button>
+            </div>
+        </div>
+
+        <!-- Slide grid -->
+        <div class="slide-grid" id="slide-grid"></div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const dropZone = document.getElementById('drop-zone');
+        const uploadSection = document.getElementById('upload-section');
+        const progressSection = document.getElementById('progress-section');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const convertingName = document.getElementById('converting-name');
+        const formatSection = document.getElementById('format-section');
+        const slideGrid = document.getElementById('slide-grid');
+        const slideCountEl = document.getElementById('slide-count');
+        const btnDlAll = document.getElementById('btn-dl-all');
+
+        let slides = [];
+        let currentFormat = 'png';
+
+        // Drag & drop
+        dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]);
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files[0]) processFile(fileInput.files[0]);
+        });
+
+        // Format toggle
+        document.querySelectorAll('.format-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFormat = btn.dataset.fmt;
+                renderSlideGrid();
+            });
+        });
+
+        btnDlAll.addEventListener('click', downloadAll);
+
+        function resetToUpload() {
+            slides = [];
+            slideGrid.innerHTML = '';
+            formatSection.style.display = 'none';
+            progressSection.style.display = 'none';
+            uploadSection.style.display = 'block';
+            fileInput.value = '';
+        }
+
+        async function processFile(file) {
+            if (!file.name.match(/\.pptx$/i)) {
+                alert('Please select a .pptx file');
+                return;
+            }
+            uploadSection.style.display = 'none';
+            progressSection.style.display = 'block';
+            convertingName.textContent = file.name;
+            progressBar.value = 0;
+            progressText.textContent = 'Reading file...';
+            slides = [];
+            slideGrid.innerHTML = '';
+
+            try {
+                const parsed = await parsePptx(file);
+                for (let i = 0; i < parsed.length; i++) {
+                    progressBar.value = ((i + 1) / parsed.length) * 100;
+                    progressText.textContent = 'Rendering slide ' + (i + 1) + ' of ' + parsed.length + '...';
+                    const dataUrl = await renderSlideToCanvas(parsed[i]);
+                    slides.push({ index: i, dataUrl });
+                }
+                progressSection.style.display = 'none';
+                formatSection.style.display = 'flex';
+                slideCountEl.textContent = slides.length + ' slide' + (slides.length !== 1 ? 's' : '');
+                renderSlideGrid();
+            } catch (e) {
+                console.error(e);
+                progressText.textContent = 'Error: Could not process this file.';
+            }
+        }
+
+        function renderSlideGrid() {
+            slideGrid.innerHTML = '';
+            slides.forEach(function(slide) {
+                var card = document.createElement('div');
+                card.className = 'slide-card';
+
+                var img = document.createElement('img');
+                img.src = slide.dataUrl;
+                img.alt = 'Slide ' + (slide.index + 1);
+
+                var footer = document.createElement('div');
+                footer.className = 'slide-footer';
+
+                var label = document.createElement('span');
+                label.className = 'slide-label';
+                label.textContent = 'Slide ' + (slide.index + 1);
+
+                var btn = document.createElement('button');
+                btn.className = 'btn-dl';
+                btn.textContent = '\u2B07 .' + currentFormat.toUpperCase();
+                btn.onclick = (function(s) { return function() { downloadSlide(s); }; })(slide);
+
+                footer.appendChild(label);
+                footer.appendChild(btn);
+                card.appendChild(img);
+                card.appendChild(footer);
+                slideGrid.appendChild(card);
+            });
+        }
+
+        function downloadSlide(slide) {
+            var a = document.createElement('a');
+            if (currentFormat === 'jpg') {
+                var canvas = document.createElement('canvas');
+                var img = new Image();
+                img.onload = function() {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    var ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#fff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0);
+                    a.href = canvas.toDataURL('image/jpeg', 0.92);
+                    a.download = 'slide_' + (slide.index + 1) + '.jpg';
+                    a.click();
+                };
+                img.src = slide.dataUrl;
+            } else {
+                a.href = slide.dataUrl;
+                a.download = 'slide_' + (slide.index + 1) + '.png';
+                a.click();
+            }
+        }
+
+        function downloadAll() {
+            slides.forEach(function(slide, idx) {
+                setTimeout(function() { downloadSlide(slide); }, idx * 300);
+            });
+        }
+
+        /* ── PPTX Parsing ── */
+        async function parsePptx(file) {
+            var arrayBuffer = await file.arrayBuffer();
+            var zip = await JSZip.loadAsync(arrayBuffer);
+
+            var slideFiles = Object.keys(zip.files)
+                .filter(function(f) { return /^ppt\/slides\/slide\d+\.xml$/.test(f); })
+                .sort(function(a, b) {
+                    return parseInt(a.match(/slide(\d+)/)[1]) - parseInt(b.match(/slide(\d+)/)[1]);
+                });
+
+            var images = {};
+            for (var key of Object.keys(zip.files)) {
+                if (key.startsWith('ppt/media/')) {
+                    var blob = await zip.files[key].async('blob');
+                    images[key] = URL.createObjectURL(blob);
+                }
+            }
+
+            var results = [];
+            for (var sf of slideFiles) {
+                var slideXml = await zip.files[sf].async('text');
+                var slideNum = parseInt(sf.match(/slide(\d+)/)[1]);
+
+                var slideImages = {};
+                var relsPath = 'ppt/slides/_rels/slide' + slideNum + '.xml.rels';
+                if (zip.files[relsPath]) {
+                    var relsXml = await zip.files[relsPath].async('text');
+                    var parser = new DOMParser();
+                    var relsDoc = parser.parseFromString(relsXml, 'text/xml');
+                    var rels = relsDoc.getElementsByTagName('Relationship');
+                    for (var r = 0; r < rels.length; r++) {
+                        var target = rels[r].getAttribute('Target');
+                        if (target && target.indexOf('media/') !== -1) {
+                            var rId = rels[r].getAttribute('Id');
+                            var fullPath = 'ppt/' + target.replace('../', '');
+                            if (images[fullPath]) slideImages[rId] = images[fullPath];
+                        }
+                    }
+                }
+
+                // Check slide background
+                var bgColor = null;
+                var sdoc = new DOMParser().parseFromString(slideXml, 'text/xml');
+                var bgEl = sdoc.getElementsByTagName('p:bg')[0];
+                if (bgEl) {
+                    var srgb = bgEl.getElementsByTagName('a:srgbClr')[0];
+                    if (srgb) bgColor = '#' + srgb.getAttribute('val');
+                }
+
+                results.push({ index: results.length, xml: slideXml, images: slideImages, bgColor: bgColor });
+            }
+            return results;
+        }
+
+        function renderSlideToCanvas(slide) {
+            var width = 1920, height = 1080;
+            return new Promise(function(resolve) {
+                var canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                var ctx = canvas.getContext('2d');
+
+                ctx.fillStyle = slide.bgColor || '#ffffff';
+                ctx.fillRect(0, 0, width, height);
+
+                var doc = new DOMParser().parseFromString(slide.xml, 'text/xml');
+                var emuToPx = function(emu) { return (parseInt(emu) || 0) * 96 / 914400; };
+
+                var textItems = [];
+                var imageItems = [];
+
+                var sps = doc.getElementsByTagName('p:sp');
+                var pics = doc.getElementsByTagName('p:pic');
+                var shapes = [];
+                for (var i = 0; i < sps.length; i++) shapes.push(sps[i]);
+                for (var i = 0; i < pics.length; i++) shapes.push(pics[i]);
+
+                for (var s = 0; s < shapes.length; s++) {
+                    var shape = shapes[s];
+                    var off = shape.getElementsByTagName('a:off')[0];
+                    var ext = shape.getElementsByTagName('a:ext')[0];
+                    if (!off || !ext) continue;
+
+                    var x = emuToPx(off.getAttribute('x'));
+                    var y = emuToPx(off.getAttribute('y'));
+                    var w = emuToPx(ext.getAttribute('cx'));
+                    var h = emuToPx(ext.getAttribute('cy'));
+
+                    var blip = shape.getElementsByTagName('a:blip')[0];
+                    if (blip) {
+                        var rEmbed = blip.getAttribute('r:embed');
+                        if (rEmbed && slide.images[rEmbed]) {
+                            imageItems.push({ src: slide.images[rEmbed], x: x, y: y, w: w, h: h });
+                        }
+                        continue;
+                    }
+
+                    // Shape fill
+                    var spPr = shape.getElementsByTagName('p:spPr')[0] || shape.getElementsByTagName('a:spPr')[0];
+                    if (spPr) {
+                        var solidFill = spPr.getElementsByTagName('a:solidFill')[0];
+                        if (solidFill) {
+                            var sc = solidFill.getElementsByTagName('a:srgbClr')[0];
+                            if (sc) {
+                                ctx.fillStyle = '#' + sc.getAttribute('val');
+                                ctx.fillRect(x * (width / 1920) * 2, y * (height / 1080) * 2,
+                                    w * (width / 1920) * 2, h * (height / 1080) * 2);
+                            }
+                        }
+                    }
+
+                    // Text
+                    var txBody = shape.getElementsByTagName('p:txBody')[0];
+                    if (!txBody) continue;
+
+                    var paras = txBody.getElementsByTagName('a:p');
+                    var yOff = 0;
+                    for (var p = 0; p < paras.length; p++) {
+                        var runs = paras[p].getElementsByTagName('a:r');
+                        var paraText = '';
+                        var fontSize = 18, fontBold = false, fontColor = '#000000';
+
+                        for (var ri = 0; ri < runs.length; ri++) {
+                            var rPr = runs[ri].getElementsByTagName('a:rPr')[0];
+                            if (rPr) {
+                                var sz = rPr.getAttribute('sz');
+                                if (sz) fontSize = parseInt(sz) / 100;
+                                if (rPr.getAttribute('b') === '1') fontBold = true;
+                                var sf = rPr.getElementsByTagName('a:solidFill')[0];
+                                if (sf) {
+                                    var scc = sf.getElementsByTagName('a:srgbClr')[0];
+                                    if (scc) fontColor = '#' + scc.getAttribute('val');
+                                }
+                            }
+                            var t = runs[ri].getElementsByTagName('a:t')[0];
+                            if (t) paraText += t.textContent;
+                        }
+
+                        if (paraText.trim()) {
+                            textItems.push({ text: paraText, x: x, y: y + yOff, w: w, h: h,
+                                fontSize: fontSize, fontBold: fontBold, fontColor: fontColor });
+                        }
+                        yOff += fontSize * 1.5;
+                    }
+                }
+
+                var sx = width / 1920 * 2;
+                var sy = height / 1080 * 2;
+
+                var imagePromises = imageItems.map(function(item) {
+                    return new Promise(function(res) {
+                        var img = new Image();
+                        img.crossOrigin = 'anonymous';
+                        img.onload = function() {
+                            ctx.drawImage(img, item.x * sx, item.y * sy, item.w * sx, item.h * sy);
+                            res();
+                        };
+                        img.onerror = function() { res(); };
+                        img.src = item.src;
+                    });
+                });
+
+                Promise.all(imagePromises).then(function() {
+                    for (var ti = 0; ti < textItems.length; ti++) {
+                        var item = textItems[ti];
+                        var scaledSize = Math.max(12, item.fontSize * sx * 0.5);
+                        ctx.font = (item.fontBold ? 'bold ' : '') + scaledSize + 'px Arial, sans-serif';
+                        ctx.fillStyle = item.fontColor;
+                        ctx.textBaseline = 'top';
+
+                        var maxW = item.w * sx;
+                        var words = item.text.split(' ');
+                        var line = '';
+                        var lineY = item.y * sy;
+
+                        for (var wi = 0; wi < words.length; wi++) {
+                            var testLine = line + (line ? ' ' : '') + words[wi];
+                            if (ctx.measureText(testLine).width > maxW && line) {
+                                ctx.fillText(line, item.x * sx, lineY);
+                                line = words[wi];
+                                lineY += scaledSize * 1.3;
+                            } else {
+                                line = testLine;
+                            }
+                        }
+                        ctx.fillText(line, item.x * sx, lineY);
+                    }
+                    resolve(canvas.toDataURL('image/png'));
+                });
+            });
+        }
+    </script>
+</body>
+</html>
