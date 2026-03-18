@@ -53,8 +53,7 @@
         }
         .btn-browse:hover { background: var(--accent-hover); }
 
-        /* Progress */
-        #progress-section, #done-section, #format-section { display: none; }
+        #progress-section, #format-section { display: none; }
         #progress-section {
             background: #fff;
             border-radius: 12px;
@@ -65,7 +64,6 @@
         #progress-section h3 { margin-top: 0; }
         .progress-text { color: #546e7a; font-size: 0.95rem; margin-top: 0.5rem; }
 
-        /* Format bar */
         #format-section {
             background: #fff;
             border-radius: 12px;
@@ -73,104 +71,101 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             margin-bottom: 1.5rem;
             display: none;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .toolbar-row {
+            display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 0.75rem;
         }
-        .format-group {
+        .toolbar-left {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1.25rem;
+            flex-wrap: wrap;
         }
-        .format-group label { font-size: 0.9rem; color: #546e7a; margin: 0; }
-        .format-btn {
-            padding: 0.3rem 0.9rem;
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .option-group label {
+            font-size: 0.85rem;
+            color: #78909c;
+            margin: 0;
+            font-weight: 500;
+        }
+        .toggle-btn {
+            padding: 0.3rem 0.75rem;
             border-radius: 6px;
             border: 1px solid #cfd8dc;
             background: #fff;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             color: #546e7a;
         }
-        .format-btn.active {
+        .toggle-btn.active {
             background: var(--accent);
             color: #fff;
             border-color: var(--accent);
         }
+        .toggle-btn:hover:not(.active) { border-color: #90a4ae; }
+
         .action-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
         .btn-dl-all {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            padding: 0.4rem 1.25rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #fff;
-            background: #388e3c;
-            border: none;
-            cursor: pointer;
-            transition: background 0.2s;
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.4rem 1.25rem; border-radius: 6px;
+            font-size: 0.85rem; font-weight: 600;
+            color: #fff; background: #388e3c; border: none;
+            cursor: pointer; transition: background 0.2s;
         }
         .btn-dl-all:hover { background: #2e7d32; }
         .btn-another {
-            padding: 0.4rem 1.25rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #546e7a;
-            background: transparent;
-            border: 1px solid #cfd8dc;
-            cursor: pointer;
-            transition: all 0.2s;
+            padding: 0.4rem 1.25rem; border-radius: 6px;
+            font-size: 0.85rem; font-weight: 500;
+            color: #546e7a; background: transparent;
+            border: 1px solid #cfd8dc; cursor: pointer; transition: all 0.2s;
         }
         .btn-another:hover { border-color: #90a4ae; color: #37474f; }
+        .btn-rerender {
+            padding: 0.4rem 1.25rem; border-radius: 6px;
+            font-size: 0.85rem; font-weight: 600;
+            color: #fff; background: #f57c00; border: none;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .btn-rerender:hover { background: #e65100; }
 
-        /* Slide grid */
+        .slide-count { color: #78909c; font-size: 0.85rem; }
+        .res-hint { font-size: 0.8rem; color: #f57c00; margin-top: 0.1rem; }
+
         .slide-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 1rem; margin-bottom: 1.5rem;
         }
         .slide-card {
-            background: #fff;
-            border-radius: 10px;
+            background: #fff; border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            overflow: hidden;
-            transition: box-shadow 0.2s;
+            overflow: hidden; transition: box-shadow 0.2s;
         }
         .slide-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.14); }
-        .slide-card img {
-            width: 100%;
-            display: block;
-            border-bottom: 1px solid #eee;
-        }
+        .slide-card img { width: 100%; display: block; border-bottom: 1px solid #eee; }
         .slide-footer {
-            padding: 0.6rem 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            padding: 0.6rem 0.75rem; display: flex;
+            align-items: center; justify-content: space-between;
         }
-        .slide-label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #37474f;
-        }
+        .slide-label { font-size: 0.85rem; font-weight: 600; color: #37474f; }
+        .slide-res { font-size: 0.7rem; color: #90a4ae; font-weight: 400; }
         .btn-dl {
-            display: inline-block;
-            padding: 0.25rem 0.7rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #fff;
-            background: var(--accent);
-            border: none;
-            cursor: pointer;
-            transition: background 0.2s;
+            display: inline-block; padding: 0.25rem 0.7rem;
+            border-radius: 6px; font-size: 0.8rem; font-weight: 500;
+            color: #fff; background: var(--accent); border: none;
+            cursor: pointer; transition: background 0.2s;
         }
         .btn-dl:hover { background: var(--accent-hover); color: #fff; }
     </style>
@@ -201,18 +196,31 @@
             <div class="progress-text" id="progress-text">Preparing...</div>
         </section>
 
-        <!-- Format bar + actions -->
+        <!-- Toolbar -->
         <div id="format-section">
-            <div class="format-group">
-                <label>Format:</label>
-                <button class="format-btn active" data-fmt="png">PNG</button>
-                <button class="format-btn" data-fmt="jpg">JPG</button>
-                <span style="color:#78909c;font-size:0.85rem;margin-left:0.5rem;" id="slide-count"></span>
+            <div class="toolbar-row">
+                <div class="toolbar-left">
+                    <div class="option-group">
+                        <label>Format:</label>
+                        <button class="toggle-btn fmt-btn active" data-fmt="png">PNG</button>
+                        <button class="toggle-btn fmt-btn" data-fmt="jpg">JPG</button>
+                    </div>
+                    <div class="option-group">
+                        <label>Resolution:</label>
+                        <button class="toggle-btn res-btn" data-w="960" data-h="540">960×540</button>
+                        <button class="toggle-btn res-btn active" data-w="1920" data-h="1080">1920×1080</button>
+                        <button class="toggle-btn res-btn" data-w="2560" data-h="1440">2560×1440</button>
+                        <button class="toggle-btn res-btn" data-w="3840" data-h="2160">3840×2160</button>
+                    </div>
+                    <span class="slide-count" id="slide-count"></span>
+                </div>
+                <div class="action-group">
+                    <button class="btn-rerender" id="btn-rerender" style="display:none;">&#8635; Re-render</button>
+                    <button class="btn-dl-all" id="btn-dl-all">&#11015; Download All</button>
+                    <button class="btn-another" onclick="resetToUpload()">Convert Another</button>
+                </div>
             </div>
-            <div class="action-group">
-                <button class="btn-dl-all" id="btn-dl-all">&#11015; Download All</button>
-                <button class="btn-another" onclick="resetToUpload()">Convert Another</button>
-            </div>
+            <div class="res-hint" id="res-hint"></div>
         </div>
 
         <!-- Slide grid -->
@@ -221,76 +229,93 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script>
-        const fileInput = document.getElementById('file-input');
-        const dropZone = document.getElementById('drop-zone');
-        const uploadSection = document.getElementById('upload-section');
-        const progressSection = document.getElementById('progress-section');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        const convertingName = document.getElementById('converting-name');
-        const formatSection = document.getElementById('format-section');
-        const slideGrid = document.getElementById('slide-grid');
-        const slideCountEl = document.getElementById('slide-count');
-        const btnDlAll = document.getElementById('btn-dl-all');
+        var fileInput = document.getElementById('file-input');
+        var dropZone = document.getElementById('drop-zone');
+        var uploadSection = document.getElementById('upload-section');
+        var progressSection = document.getElementById('progress-section');
+        var progressBar = document.getElementById('progress-bar');
+        var progressText = document.getElementById('progress-text');
+        var convertingName = document.getElementById('converting-name');
+        var formatSection = document.getElementById('format-section');
+        var slideGrid = document.getElementById('slide-grid');
+        var slideCountEl = document.getElementById('slide-count');
+        var btnDlAll = document.getElementById('btn-dl-all');
+        var btnRerender = document.getElementById('btn-rerender');
+        var resHint = document.getElementById('res-hint');
 
-        let slides = [];
-        let currentFormat = 'png';
+        var slides = [];
+        var parsedSlides = [];
+        var currentFormat = 'png';
+        var currentWidth = 1920;
+        var currentHeight = 1080;
+        var renderedWidth = 1920;
+        var renderedHeight = 1080;
 
-        // Drag & drop
-        dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-        dropZone.addEventListener('drop', e => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
+        /* ── Events ── */
+        dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('dragover'); });
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault(); dropZone.classList.remove('dragover');
             if (e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]);
         });
+        fileInput.addEventListener('change', function() { if (fileInput.files[0]) processFile(fileInput.files[0]); });
 
-        fileInput.addEventListener('change', () => {
-            if (fileInput.files[0]) processFile(fileInput.files[0]);
-        });
-
-        // Format toggle
-        document.querySelectorAll('.format-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.fmt-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.fmt-btn').forEach(function(b) { b.classList.remove('active'); });
                 btn.classList.add('active');
                 currentFormat = btn.dataset.fmt;
                 renderSlideGrid();
             });
         });
 
+        document.querySelectorAll('.res-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.res-btn').forEach(function(b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                currentWidth = parseInt(btn.dataset.w);
+                currentHeight = parseInt(btn.dataset.h);
+                updateResHint();
+            });
+        });
+
+        btnRerender.addEventListener('click', function() { if (parsedSlides.length) rerenderSlides(); });
         btnDlAll.addEventListener('click', downloadAll);
 
+        function updateResHint() {
+            if (currentWidth !== renderedWidth || currentHeight !== renderedHeight) {
+                resHint.textContent = 'Resolution changed \u2014 click "Re-render" to apply ' + currentWidth + '\u00d7' + currentHeight;
+                btnRerender.style.display = 'inline-flex';
+            } else {
+                resHint.textContent = '';
+                btnRerender.style.display = 'none';
+            }
+        }
+
         function resetToUpload() {
-            slides = [];
+            slides = []; parsedSlides = [];
             slideGrid.innerHTML = '';
             formatSection.style.display = 'none';
             progressSection.style.display = 'none';
             uploadSection.style.display = 'block';
             fileInput.value = '';
+            resHint.textContent = '';
+            btnRerender.style.display = 'none';
         }
 
+        /* ── Main flow ── */
         async function processFile(file) {
-            if (!file.name.match(/\.pptx$/i)) {
-                alert('Please select a .pptx file');
-                return;
-            }
+            if (!file.name.match(/\.pptx$/i)) { alert('Please select a .pptx file'); return; }
             uploadSection.style.display = 'none';
             progressSection.style.display = 'block';
             convertingName.textContent = file.name;
             progressBar.value = 0;
-            progressText.textContent = 'Reading file...';
-            slides = [];
-            slideGrid.innerHTML = '';
+            progressText.textContent = 'Reading file\u2026';
+            slides = []; parsedSlides = []; slideGrid.innerHTML = '';
 
             try {
-                const parsed = await parsePptx(file);
-                for (let i = 0; i < parsed.length; i++) {
-                    progressBar.value = ((i + 1) / parsed.length) * 100;
-                    progressText.textContent = 'Rendering slide ' + (i + 1) + ' of ' + parsed.length + '...';
-                    const dataUrl = await renderSlideToCanvas(parsed[i]);
-                    slides.push({ index: i, dataUrl });
-                }
+                parsedSlides = await parsePptx(file);
+                await renderAllSlides();
                 progressSection.style.display = 'none';
                 formatSection.style.display = 'flex';
                 slideCountEl.textContent = slides.length + ' slide' + (slides.length !== 1 ? 's' : '');
@@ -301,56 +326,74 @@
             }
         }
 
+        async function renderAllSlides() {
+            slides = [];
+            renderedWidth = currentWidth;
+            renderedHeight = currentHeight;
+            for (var i = 0; i < parsedSlides.length; i++) {
+                progressBar.value = ((i + 1) / parsedSlides.length) * 100;
+                progressText.textContent = 'Rendering slide ' + (i + 1) + ' of ' + parsedSlides.length + ' at ' + currentWidth + '\u00d7' + currentHeight + '\u2026';
+                slides.push({ index: i, dataUrl: await renderSlideToCanvas(parsedSlides[i], currentWidth, currentHeight) });
+            }
+            updateResHint();
+        }
+
+        async function rerenderSlides() {
+            formatSection.style.display = 'none';
+            slideGrid.innerHTML = '';
+            progressSection.style.display = 'block';
+            progressBar.value = 0;
+            progressText.textContent = 'Re-rendering\u2026';
+            await renderAllSlides();
+            progressSection.style.display = 'none';
+            formatSection.style.display = 'flex';
+            slideCountEl.textContent = slides.length + ' slide' + (slides.length !== 1 ? 's' : '');
+            renderSlideGrid();
+        }
+
+        /* ── Grid ── */
         function renderSlideGrid() {
             slideGrid.innerHTML = '';
             slides.forEach(function(slide) {
-                var card = document.createElement('div');
-                card.className = 'slide-card';
+                var card = document.createElement('div'); card.className = 'slide-card';
+                var img = document.createElement('img'); img.src = slide.dataUrl; img.alt = 'Slide ' + (slide.index + 1);
 
-                var img = document.createElement('img');
-                img.src = slide.dataUrl;
-                img.alt = 'Slide ' + (slide.index + 1);
+                var footer = document.createElement('div'); footer.className = 'slide-footer';
+                var labelWrap = document.createElement('div');
+                var label = document.createElement('div'); label.className = 'slide-label'; label.textContent = 'Slide ' + (slide.index + 1);
+                var res = document.createElement('div'); res.className = 'slide-res'; res.textContent = renderedWidth + '\u00d7' + renderedHeight;
+                labelWrap.appendChild(label); labelWrap.appendChild(res);
 
-                var footer = document.createElement('div');
-                footer.className = 'slide-footer';
-
-                var label = document.createElement('span');
-                label.className = 'slide-label';
-                label.textContent = 'Slide ' + (slide.index + 1);
-
-                var btn = document.createElement('button');
-                btn.className = 'btn-dl';
+                var btn = document.createElement('button'); btn.className = 'btn-dl';
                 btn.textContent = '\u2B07 .' + currentFormat.toUpperCase();
                 btn.onclick = (function(s) { return function() { downloadSlide(s); }; })(slide);
 
-                footer.appendChild(label);
-                footer.appendChild(btn);
-                card.appendChild(img);
-                card.appendChild(footer);
+                footer.appendChild(labelWrap); footer.appendChild(btn);
+                card.appendChild(img); card.appendChild(footer);
                 slideGrid.appendChild(card);
             });
         }
 
+        /* ── Download ── */
         function downloadSlide(slide) {
             var a = document.createElement('a');
+            var suffix = '_' + renderedWidth + 'x' + renderedHeight;
             if (currentFormat === 'jpg') {
                 var canvas = document.createElement('canvas');
                 var img = new Image();
                 img.onload = function() {
-                    canvas.width = img.width;
-                    canvas.height = img.height;
+                    canvas.width = img.width; canvas.height = img.height;
                     var ctx = canvas.getContext('2d');
-                    ctx.fillStyle = '#fff';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
                     ctx.drawImage(img, 0, 0);
                     a.href = canvas.toDataURL('image/jpeg', 0.92);
-                    a.download = 'slide_' + (slide.index + 1) + '.jpg';
+                    a.download = 'slide_' + (slide.index + 1) + suffix + '.jpg';
                     a.click();
                 };
                 img.src = slide.dataUrl;
             } else {
                 a.href = slide.dataUrl;
-                a.download = 'slide_' + (slide.index + 1) + '.png';
+                a.download = 'slide_' + (slide.index + 1) + suffix + '.png';
                 a.click();
             }
         }
@@ -363,76 +406,71 @@
 
         /* ── PPTX Parsing ── */
         async function parsePptx(file) {
-            var arrayBuffer = await file.arrayBuffer();
-            var zip = await JSZip.loadAsync(arrayBuffer);
+            var ab = await file.arrayBuffer();
+            var zip = await JSZip.loadAsync(ab);
 
             var slideFiles = Object.keys(zip.files)
                 .filter(function(f) { return /^ppt\/slides\/slide\d+\.xml$/.test(f); })
-                .sort(function(a, b) {
-                    return parseInt(a.match(/slide(\d+)/)[1]) - parseInt(b.match(/slide(\d+)/)[1]);
-                });
+                .sort(function(a, b) { return parseInt(a.match(/slide(\d+)/)[1]) - parseInt(b.match(/slide(\d+)/)[1]); });
 
             var images = {};
             for (var key of Object.keys(zip.files)) {
                 if (key.startsWith('ppt/media/')) {
-                    var blob = await zip.files[key].async('blob');
-                    images[key] = URL.createObjectURL(blob);
+                    images[key] = URL.createObjectURL(await zip.files[key].async('blob'));
                 }
             }
 
             var results = [];
             for (var sf of slideFiles) {
-                var slideXml = await zip.files[sf].async('text');
-                var slideNum = parseInt(sf.match(/slide(\d+)/)[1]);
+                var xml = await zip.files[sf].async('text');
+                var num = parseInt(sf.match(/slide(\d+)/)[1]);
 
-                var slideImages = {};
-                var relsPath = 'ppt/slides/_rels/slide' + slideNum + '.xml.rels';
-                if (zip.files[relsPath]) {
-                    var relsXml = await zip.files[relsPath].async('text');
-                    var parser = new DOMParser();
-                    var relsDoc = parser.parseFromString(relsXml, 'text/xml');
-                    var rels = relsDoc.getElementsByTagName('Relationship');
+                var sImgs = {};
+                var rp = 'ppt/slides/_rels/slide' + num + '.xml.rels';
+                if (zip.files[rp]) {
+                    var rd = new DOMParser().parseFromString(await zip.files[rp].async('text'), 'text/xml');
+                    var rels = rd.getElementsByTagName('Relationship');
                     for (var r = 0; r < rels.length; r++) {
-                        var target = rels[r].getAttribute('Target');
-                        if (target && target.indexOf('media/') !== -1) {
-                            var rId = rels[r].getAttribute('Id');
-                            var fullPath = 'ppt/' + target.replace('../', '');
-                            if (images[fullPath]) slideImages[rId] = images[fullPath];
+                        var tgt = rels[r].getAttribute('Target');
+                        if (tgt && tgt.indexOf('media/') !== -1) {
+                            var fp = 'ppt/' + tgt.replace('../', '');
+                            if (images[fp]) sImgs[rels[r].getAttribute('Id')] = images[fp];
                         }
                     }
                 }
 
-                // Check slide background
                 var bgColor = null;
-                var sdoc = new DOMParser().parseFromString(slideXml, 'text/xml');
-                var bgEl = sdoc.getElementsByTagName('p:bg')[0];
-                if (bgEl) {
-                    var srgb = bgEl.getElementsByTagName('a:srgbClr')[0];
-                    if (srgb) bgColor = '#' + srgb.getAttribute('val');
-                }
+                var sd = new DOMParser().parseFromString(xml, 'text/xml');
+                var bg = sd.getElementsByTagName('p:bg')[0];
+                if (bg) { var sc = bg.getElementsByTagName('a:srgbClr')[0]; if (sc) bgColor = '#' + sc.getAttribute('val'); }
 
-                results.push({ index: results.length, xml: slideXml, images: slideImages, bgColor: bgColor });
+                results.push({ index: results.length, xml: xml, images: sImgs, bgColor: bgColor });
             }
             return results;
         }
 
-        function renderSlideToCanvas(slide) {
-            var width = 1920, height = 1080;
+        /* ── Rendering ── */
+        function renderSlideToCanvas(slide, width, height) {
             return new Promise(function(resolve) {
                 var canvas = document.createElement('canvas');
-                canvas.width = width;
-                canvas.height = height;
+                canvas.width = width; canvas.height = height;
                 var ctx = canvas.getContext('2d');
-
                 ctx.fillStyle = slide.bgColor || '#ffffff';
                 ctx.fillRect(0, 0, width, height);
 
                 var doc = new DOMParser().parseFromString(slide.xml, 'text/xml');
-                var emuToPx = function(emu) { return (parseInt(emu) || 0) * 96 / 914400; };
 
-                var textItems = [];
-                var imageItems = [];
+                // Standard slide size: 10" x 7.5" in EMU
+                var SX = width / 12192000;
+                var SY = height / 6858000;
 
+                var eX = function(v) { return (parseInt(v) || 0) * SX; };
+                var eY = function(v) { return (parseInt(v) || 0) * SY; };
+
+                // Font: sz in hundredths of a point -> px, scaled to output
+                var szPx = function(sz) { return ((parseInt(sz) || 1800) / 100) * (width / 960); };
+
+                var textItems = [], imageItems = [];
                 var sps = doc.getElementsByTagName('p:sp');
                 var pics = doc.getElementsByTagName('p:pic');
                 var shapes = [];
@@ -440,114 +478,73 @@
                 for (var i = 0; i < pics.length; i++) shapes.push(pics[i]);
 
                 for (var s = 0; s < shapes.length; s++) {
-                    var shape = shapes[s];
-                    var off = shape.getElementsByTagName('a:off')[0];
-                    var ext = shape.getElementsByTagName('a:ext')[0];
+                    var sh = shapes[s];
+                    var off = sh.getElementsByTagName('a:off')[0];
+                    var ext = sh.getElementsByTagName('a:ext')[0];
                     if (!off || !ext) continue;
+                    var x = eX(off.getAttribute('x')), y = eY(off.getAttribute('y'));
+                    var w = eX(ext.getAttribute('cx')), h = eY(ext.getAttribute('cy'));
 
-                    var x = emuToPx(off.getAttribute('x'));
-                    var y = emuToPx(off.getAttribute('y'));
-                    var w = emuToPx(ext.getAttribute('cx'));
-                    var h = emuToPx(ext.getAttribute('cy'));
-
-                    var blip = shape.getElementsByTagName('a:blip')[0];
+                    // Image
+                    var blip = sh.getElementsByTagName('a:blip')[0];
                     if (blip) {
-                        var rEmbed = blip.getAttribute('r:embed');
-                        if (rEmbed && slide.images[rEmbed]) {
-                            imageItems.push({ src: slide.images[rEmbed], x: x, y: y, w: w, h: h });
-                        }
+                        var rid = blip.getAttribute('r:embed');
+                        if (rid && slide.images[rid]) imageItems.push({ src: slide.images[rid], x:x, y:y, w:w, h:h });
                         continue;
                     }
 
                     // Shape fill
-                    var spPr = shape.getElementsByTagName('p:spPr')[0] || shape.getElementsByTagName('a:spPr')[0];
+                    var spPr = sh.getElementsByTagName('p:spPr')[0] || sh.getElementsByTagName('a:spPr')[0];
                     if (spPr) {
-                        var solidFill = spPr.getElementsByTagName('a:solidFill')[0];
-                        if (solidFill) {
-                            var sc = solidFill.getElementsByTagName('a:srgbClr')[0];
-                            if (sc) {
-                                ctx.fillStyle = '#' + sc.getAttribute('val');
-                                ctx.fillRect(x * (width / 1920) * 2, y * (height / 1080) * 2,
-                                    w * (width / 1920) * 2, h * (height / 1080) * 2);
-                            }
-                        }
+                        var sf = spPr.getElementsByTagName('a:solidFill')[0];
+                        if (sf) { var sc = sf.getElementsByTagName('a:srgbClr')[0]; if (sc) { ctx.fillStyle = '#' + sc.getAttribute('val'); ctx.fillRect(x, y, w, h); } }
                     }
 
                     // Text
-                    var txBody = shape.getElementsByTagName('p:txBody')[0];
-                    if (!txBody) continue;
-
-                    var paras = txBody.getElementsByTagName('a:p');
+                    var tb = sh.getElementsByTagName('p:txBody')[0];
+                    if (!tb) continue;
+                    var paras = tb.getElementsByTagName('a:p');
                     var yOff = 0;
                     for (var p = 0; p < paras.length; p++) {
                         var runs = paras[p].getElementsByTagName('a:r');
-                        var paraText = '';
-                        var fontSize = 18, fontBold = false, fontColor = '#000000';
-
+                        var txt = '', fs = szPx(1800), fb = false, fc = '#000000';
                         for (var ri = 0; ri < runs.length; ri++) {
-                            var rPr = runs[ri].getElementsByTagName('a:rPr')[0];
-                            if (rPr) {
-                                var sz = rPr.getAttribute('sz');
-                                if (sz) fontSize = parseInt(sz) / 100;
-                                if (rPr.getAttribute('b') === '1') fontBold = true;
-                                var sf = rPr.getElementsByTagName('a:solidFill')[0];
-                                if (sf) {
-                                    var scc = sf.getElementsByTagName('a:srgbClr')[0];
-                                    if (scc) fontColor = '#' + scc.getAttribute('val');
-                                }
+                            var rp2 = runs[ri].getElementsByTagName('a:rPr')[0];
+                            if (rp2) {
+                                var szv = rp2.getAttribute('sz'); if (szv) fs = szPx(szv);
+                                if (rp2.getAttribute('b') === '1') fb = true;
+                                var sfl = rp2.getElementsByTagName('a:solidFill')[0];
+                                if (sfl) { var scc = sfl.getElementsByTagName('a:srgbClr')[0]; if (scc) fc = '#' + scc.getAttribute('val'); }
                             }
-                            var t = runs[ri].getElementsByTagName('a:t')[0];
-                            if (t) paraText += t.textContent;
+                            var te = runs[ri].getElementsByTagName('a:t')[0];
+                            if (te) txt += te.textContent;
                         }
-
-                        if (paraText.trim()) {
-                            textItems.push({ text: paraText, x: x, y: y + yOff, w: w, h: h,
-                                fontSize: fontSize, fontBold: fontBold, fontColor: fontColor });
-                        }
-                        yOff += fontSize * 1.5;
+                        if (txt.trim()) textItems.push({ text:txt, x:x, y:y+yOff, w:w, fontSize:fs, fontBold:fb, fontColor:fc });
+                        yOff += fs * 1.4;
                     }
                 }
 
-                var sx = width / 1920 * 2;
-                var sy = height / 1080 * 2;
-
-                var imagePromises = imageItems.map(function(item) {
+                // Draw images then text
+                Promise.all(imageItems.map(function(it) {
                     return new Promise(function(res) {
-                        var img = new Image();
-                        img.crossOrigin = 'anonymous';
-                        img.onload = function() {
-                            ctx.drawImage(img, item.x * sx, item.y * sy, item.w * sx, item.h * sy);
-                            res();
-                        };
-                        img.onerror = function() { res(); };
-                        img.src = item.src;
+                        var im = new Image(); im.crossOrigin = 'anonymous';
+                        im.onload = function() { ctx.drawImage(im, it.x, it.y, it.w, it.h); res(); };
+                        im.onerror = function() { res(); };
+                        im.src = it.src;
                     });
-                });
-
-                Promise.all(imagePromises).then(function() {
+                })).then(function() {
                     for (var ti = 0; ti < textItems.length; ti++) {
-                        var item = textItems[ti];
-                        var scaledSize = Math.max(12, item.fontSize * sx * 0.5);
-                        ctx.font = (item.fontBold ? 'bold ' : '') + scaledSize + 'px Arial, sans-serif';
-                        ctx.fillStyle = item.fontColor;
-                        ctx.textBaseline = 'top';
-
-                        var maxW = item.w * sx;
-                        var words = item.text.split(' ');
-                        var line = '';
-                        var lineY = item.y * sy;
-
+                        var it = textItems[ti];
+                        var fz = Math.max(10, it.fontSize);
+                        ctx.font = (it.fontBold ? 'bold ' : '') + fz + 'px Arial, sans-serif';
+                        ctx.fillStyle = it.fontColor; ctx.textBaseline = 'top';
+                        var mw = it.w, words = it.text.split(' '), ln = '', ly = it.y;
                         for (var wi = 0; wi < words.length; wi++) {
-                            var testLine = line + (line ? ' ' : '') + words[wi];
-                            if (ctx.measureText(testLine).width > maxW && line) {
-                                ctx.fillText(line, item.x * sx, lineY);
-                                line = words[wi];
-                                lineY += scaledSize * 1.3;
-                            } else {
-                                line = testLine;
-                            }
+                            var tl = ln + (ln ? ' ' : '') + words[wi];
+                            if (ctx.measureText(tl).width > mw && ln) { ctx.fillText(ln, it.x, ly); ln = words[wi]; ly += fz * 1.3; }
+                            else ln = tl;
                         }
-                        ctx.fillText(line, item.x * sx, lineY);
+                        ctx.fillText(ln, it.x, ly);
                     }
                     resolve(canvas.toDataURL('image/png'));
                 });
